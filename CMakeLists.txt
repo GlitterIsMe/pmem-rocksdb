@@ -61,7 +61,7 @@ if(CCACHE_FOUND)
 endif(CCACHE_FOUND)
 
 option(WITH_JEMALLOC "build with JeMalloc" OFF)
-option(WITH_SNAPPY "build with SNAPPY" OFF)
+option(WITH_SNAPPY "build with SNAPPY" ON)
 option(WITH_LZ4 "build with lz4" OFF)
 option(WITH_ZLIB "build with zlib" OFF)
 option(WITH_ZSTD "build with zstd" OFF)
@@ -114,7 +114,7 @@ else()
     if(gflags_FOUND)
       if(TARGET ${GFLAGS_TARGET})
         # Config with GFLAGS_TARGET available since gflags 2.2.0
-        list(APPEND THIRDPARTY_LIBS ${GFLAGS_TARGET})
+        list(APPEND THIRDPARTY_LIBS ${GFLAGS_TARGET} ${GFLAGS_LIBRARIES})
       else()
         # Config with GFLAGS_LIBRARIES available since gflags 2.1.0
         list(APPEND THIRDPARTY_LIBS ${GFLAGS_LIBRARIES})
@@ -122,6 +122,8 @@ else()
     else()
       find_package(gflags REQUIRED)
       list(APPEND THIRDPARTY_LIBS gflags::gflags)
+      #list(APPEND THIRDPARTY_LIBS ${GFLAGS_LIBRARIES})
+      message(${GFLAGS_LIBRARIES})
     endif()
     add_definitions(-DGFLAGS=1)
   endif()
@@ -139,7 +141,8 @@ else()
       find_package(Snappy REQUIRED)
     endif()
     add_definitions(-DSNAPPY)
-    list(APPEND THIRDPARTY_LIBS Snappy::snappy)
+    #list(APPEND THIRDPARTY_LIBS Snappy::snappy)
+    list(APPEND THIRDPARTY_LIBS ${SNAPPY_LIBRARIES})
   endif()
 
   if(WITH_ZLIB)
@@ -534,6 +537,8 @@ if(WITH_FOLLY_DISTRIBUTED_MUTEX)
   include_directories(${PROJECT_SOURCE_DIR}/third-party/folly)
 endif()
 find_package(Threads REQUIRED)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -faligned-new -lpthread" )
 
 # Main library source code
 
@@ -1227,7 +1232,7 @@ if(WITH_BENCHMARK_TOOLS)
     tools/db_bench.cc
     tools/db_bench_tool.cc)
   target_link_libraries(db_bench
-    ${ROCKSDB_LIB})
+    ${ROCKSDB_LIB} gflags snappy)
 
   add_executable(cache_bench
     cache/cache_bench.cc)
