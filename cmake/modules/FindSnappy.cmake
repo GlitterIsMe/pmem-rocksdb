@@ -4,14 +4,15 @@
 # Snappy_INCLUDE_DIRS - where to find snappy.h, etc.
 # Snappy_LIBRARIES - List of libraries when using snappy.
 # Snappy_FOUND - True if snappy found.
-
+message("find snappy")
 find_path(Snappy_INCLUDE_DIRS
         NAMES snappy.h
         HINTS ${snappy_ROOT_DIR}/include)
 
 find_library(Snappy_LIBRARIES
         NAMES snappy
-        HINTS ${snappy_ROOT_DIR}/lib64)
+        #HINTS ${snappy_ROOT_DIR}/lib64)
+        HINTS /usr/lib/x86_64-linux-gnu)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Snappy DEFAULT_MSG Snappy_LIBRARIES Snappy_INCLUDE_DIRS)

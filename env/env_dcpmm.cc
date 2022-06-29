@@ -171,7 +171,7 @@ public:
       return s;
     }
     // explicit create new file
-    int fd = open(fname.c_str(), O_CREAT | O_EXCL | O_RDWR, 0777);
+    int fd = open(fname.c_str(), O_CREAT | O_EXCL | O_RDWR | O_DIRECT, 0777);
     if (fd < 0) {
       return Status::IOError(std::string("create '").append(fname)
                               .append("' failed: ").append(strerror(errno)));

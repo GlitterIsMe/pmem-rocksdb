@@ -1988,8 +1988,8 @@ int trace_analyzer_tool(int argc, char** argv) {
 
   s = analyzer->EndProcessing();
   if (!s.ok()) {
-    fprintf(stderr, "%s\n", s.getState());
-    fprintf(stderr, "Cannot close the trace analyzer\n");
+    //fprintf(stderr, "%s\n", s.getState());
+    //fprintf(stderr, "Cannot close the trace analyzer\n");
     exit(1);
   }
 
