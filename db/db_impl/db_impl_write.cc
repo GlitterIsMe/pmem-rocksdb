@@ -925,7 +925,7 @@ Status DBImpl::PreprocessWrite(const WriteOptions& write_options,
       std::cout<<"stop "<<stop<<std::endl;
     } else {
       delay++;
-      if(delay % 1000==0) std::cout<<"delay "<<delay<<std::endl;
+      //if(delay % 1000==0) std::cout<<"delay "<<delay<<std::endl;
 
     }
     PERF_TIMER_STOP(write_pre_and_post_process_time);
